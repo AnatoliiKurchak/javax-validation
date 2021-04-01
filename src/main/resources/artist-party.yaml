@@ -1,0 +1,127 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Artists party
+  description: Private party
+tags:
+  - name: Artists party
+paths:
+  /generated-musicians:
+    get:
+      parameters:
+      - in: query
+        name: nickName
+        required: false
+        schema:
+          type: string
+        description: Musician's nickName
+      - in: query
+        name: email
+        required: false
+        schema:
+          type: string
+        description: Musician's email
+      - in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        description: Musician's type
+      operationId: getMusicians
+      responses:
+        "202":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneratedMusicianResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error
+    post:
+      summary: Create new music group
+      operationId: createMusician
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MusicianRequest'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GeneratedMusicianResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    MusicianRequest:
+      description: Musician Request
+      type: object
+      properties:
+        nickName:
+          maxLength: 64
+          minLength: 1
+          pattern: ^\S(.*(\S))?$
+          type: string
+        email:
+          type: string
+          format: email
+        musicianType:
+          type: string
+        countryIso3:
+          maxLength: 3
+          minLength: 3
+          pattern: ^\S(.*(\S))?$
+          type: string
+        costumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/MusicianCostume'
+    GeneratedMusicianResponse:
+      description: Musician Response
+      type: object
+      properties:
+        id:
+          type: string
+    MusicianCostume:
+      description: Musician Costume
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 1
+          pattern: ^\S(.*(\S))?$
+          type: string
+        color:
+          type: string
+    Error:
+      description: Error on bad request
+      type: object
+      properties:
+        message:
+          type: string
+        date:
+          type: string
+          format: 'date-time'

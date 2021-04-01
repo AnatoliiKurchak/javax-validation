@@ -1,0 +1,34 @@
+<constraint-mappings
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.1.xsd"
+        xmlns="http://jboss.org/xml/ns/javax/validation/mapping" version="1.1">
+
+    <bean class="com.levi.javax_validation.model.MusicianRequest" ignore-annotations="true">
+        <field name="nickName">
+            <constraint annotation="com.levi.demo.validators.ValidNickName"/>
+        </field>
+        <field name="email">
+            <constraint annotation="com.levi.demo.validators.ValidEmail"/>
+        </field>
+        <field name="musicianType">
+            <constraint annotation="com.levi.demo.validators.ValidMusicianType">
+                <element name="types">
+                    <value>ESTRADA</value>
+                    <value>LEGACY_ARTIST</value>
+                </element>
+            </constraint>
+        </field>
+        <field name="costumes">
+            <valid/>
+        </field>
+    </bean>
+
+    <bean class="com.levi.javax_validation.model.MusicianCostume" ignore-annotations="true">
+        <field name="name">
+            <constraint annotation="com.levi.demo.validators.ValidName"/>
+        </field>
+        <field name="color">
+            <constraint annotation="com.levi.demo.validators.ValidColor"/>
+        </field>
+    </bean>
+</constraint-mappings>
